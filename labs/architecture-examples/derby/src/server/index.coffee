@@ -12,10 +12,14 @@ serverError = require './serverError'
 ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
+assetsPath = root
+assetsPath = path.dirname assetsPath until path.existsSync(path.join(assetsPath, 'assets'))
+assetsPath = path.join assetsPath, 'assets'
 
 (expressApp = express())
   .use(express.favicon())
   # Gzip static files and serve from memory
+  .use(gzippo.staticGzip assetsPath, maxAge: ONE_YEAR)
   .use(gzippo.staticGzip publicPath, maxAge: ONE_YEAR)
 
   # Gzip dynamically rendered content
