@@ -1,35 +1,72 @@
 <Title:>
-  Todos
+  Derby • TodoMVC
+
+<Head:>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!--[if IE]>
+  <script src="/ie.js"></script>
+  <![endif]-->
 
 <Header:>
   <app:alert>
 
 <Body:>
-  <div id=overlay></div>
-  <form id=head x-bind=submit:add>
-    <h1>Todos <span>{_remaining} remaining</span></h1>
-    <div id=add>
-      <div id=add-input><input id=new-todo value={_newTodo}></div>
-      <input id=add-button type=submit value=Add>
-    </div>
-  </form>
-  <div id=dragbox></div>
-  <div id=content><ul id=todos>{#each _todoList}<app:todo>{/}</ul></div>
+  <section id="todoapp">
+    <header id="header">
+      <h1>todos</h1>
+      <input x-bind="keyup:add" id="new-todo" value="{_newTodo}" placeholder="What needs to be done?" autofocus>
+    </header>
+    {#if _todoList}
+      <app:main>
+      <app:listfooter>
+    {/}
+  </section>
+
+<Footer:>
+  <footer id="info">
+    <p>Double-click to edit a todo</p>
+    <p>Template by <a href="http://github.com/sindresorhus">Sindre Sorhus</a></p>
+    <p>Created by <a href="http://github.com/lackac">László Bácsi</a></p>
+    <p>Based on the <a href="https://github.com/codeparty/derby-examples/tree/master/todos">Derby todos example</a></p>
+    <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+  </footer>
+
+<main:>
+  <section id="main">
+    <input id="toggle-all" type="checkbox">
+    <label for="toggle-all">Mark all as complete</label>
+    <ul id="todo-list">
+      {#each _todoList}<app:todo>{/}
+    </ul>
+  </section>
+
+<listfooter:>
+  <footer id="footer">
+    <!-- This should be `0 items left` by default -->
+    <span id="todo-count"><strong>1</strong> item left</span>
+    <!-- Remove this if you don't implement routing -->
+    <ul id="filters">
+      <li>
+        <a class="selected" href="#/">All</a>
+      </li>
+      <li>
+        <a href="#/active">Active</a>
+      </li>
+      <li>
+        <a href="#/completed">Completed</a>
+      </li>
+    </ul>
+    <button id="clear-completed">Clear completed (1)</button>
+  </footer>
 
 <todo:>
   <li data-id={{id}} class="{#if .completed}completed{/}">
-    <table width=100%>
-      <tr>
-        <td class=handle width=0></td>
-        <td width=100%>
-          <div class=todo>
-            <label><input type=checkbox checked={.completed}><i></i></label>
-            <div x-bind=keydown:shortcuts contenteditable>{unescaped .text}</div>
-          </div>
-        </td>
-        <td width=0><button class=delete x-bind=click:del>Delete</button></td>
-      </tr>
-    </table>
+    <div class="view">
+      <input class="toggle" type="checkbox" checked="{.completed}">
+      <label>{unescaped .text}</label>
+      <button class="destroy" x-bind=click:del></button>
+    </div>
+    <input class="edit" value="{.text}">
   </li>
 
 <alert:>
@@ -46,5 +83,4 @@
   </div>
 
 <Scripts:>
-  <script src=https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js></script>
-  <script src=https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js></script>
+  <script src="/base.js"></script>
