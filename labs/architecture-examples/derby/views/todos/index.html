@@ -16,7 +16,7 @@
       <h1>todos</h1>
       <input x-bind="keyup:add" id="new-todo" value="{_newTodo}" placeholder="What needs to be done?" autofocus>
     </header>
-    {#if _todoList}
+    {#if _todos}
       <app:main>
       <app:listfooter>
     {/}
@@ -36,7 +36,7 @@
     <input id="toggle-all" type="checkbox">
     <label for="toggle-all">Mark all as complete</label>
     <ul id="todo-list">
-      {#each _todoList}<app:todo>{/}
+      {#each _todos}<app:todo>{/}
     </ul>
   </section>
 
@@ -63,7 +63,7 @@
   <li data-id={{id}} class="{#if .completed}completed{/}">
     <div class="view">
       <input class="toggle" type="checkbox" checked="{.completed}">
-      <label>{unescaped .text}</label>
+      <label>{.text}</label>
       <button class="destroy" x-bind=click:del></button>
     </div>
     <input class="edit" value="{.text}">
